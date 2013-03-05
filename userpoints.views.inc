@@ -422,7 +422,7 @@ function userpoints_views_data() {
 
   $data['userpoints_txn']['entity_id'] = array(
       'title' => t('Entity ID'),
-      'help' => t('The entity_id field. Used to relate to the node table.'),
+      'help' => t('The referenced entity ID.'),
       'field' => array(
           'handler' => 'views_handler_field',
       ),
@@ -430,12 +430,25 @@ function userpoints_views_data() {
           'handler' => 'views_handler_argument_numeric',
           'numeric' => TRUE,
       ),
-      'relationship' => array(
-          'base' => 'node',
-          'field' => 'nid',
-          'label' => t('Entity'),
-          'handler' => 'views_handler_relationship',
+  );
+
+  $data['userpoints_txn']['node'] = array(
+    'title' => t('Node'),
+    'help' => t('Used to relate to the node table.'),
+    'real field' => 'entity_id',
+    'relationship' => array(
+      'base' => 'node',
+      'base field' => 'nid',
+      'label' => t('Node'),
+      'handler' => 'views_handler_relationship',
+      'extra' => array(
+        array(
+          'field' => 'entity_type',
+          'value' => 'node',
+          'table' => 'userpoints_txn',
+        ),
       ),
+    ),
   );
 
   $data['userpoints_txn']['entity_type'] = array(
