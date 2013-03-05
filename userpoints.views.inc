@@ -463,7 +463,20 @@ function userpoints_views_data() {
       ),
       'sort' => array(
           'handler' => 'views_handler_sort',
-      ),
+  ),
+  $data['userpoints_txn']['txn_id'] = array(
+    'title' => t('Transaction ID'),
+    'help' => t('Userpoints Transaction ID'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric',
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
+    ),
+  ),
   );
 
   // Reverse join information. This should not be necessary.
