@@ -1827,7 +1827,7 @@ function userpoints_create_description($transaction, array $options = array()) {
   // Link to the referenced entity, if available.
   if ($entity && $options['link']) {
     $uri = entity_uri($transaction->entity_type, $entity);
-    if ($uri) {
+    if (isset($uri['path'])) {
       $description = l($description, $uri['path'], $uri['options'] + array('html' => $safe, 'attributes' => $attributes));
     }
   }
