@@ -1902,14 +1902,14 @@ function userpoints_get_transaction_actions($transaction, $show_view = TRUE) {
   }
 
   if ($show_view && userpoints_access_view_transaction($transaction)) {
-    $actions[] = l('view', $url_prefix . '/view');
+    $actions[] = l(t('view'), $url_prefix . '/view');
   }
   if (userpoints_admin_access('edit')) {
-    $actions[] = l('edit', $url_prefix . '/edit', $url_options);
+    $actions[] = l(t('edit'), $url_prefix . '/edit', $url_options);
   }
   if (userpoints_admin_access('moderate') && $transaction->status == USERPOINTS_TXN_STATUS_PENDING) {
-    $actions[] = l('approve', $url_prefix . '/approve', $url_options);
-    $actions[] = l('decline', $url_prefix . '/decline', $url_options);
+    $actions[] = l(t('approve'), $url_prefix . '/approve', $url_options);
+    $actions[] = l(t('decline'), $url_prefix . '/decline', $url_options);
   }
   return implode(' ', $actions);
 }
