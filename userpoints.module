@@ -1435,6 +1435,8 @@ function userpoints_block_info() {
     ;
   }
 
+  $blocks['all']['info'] = t("Highest !points for all categories", userpoints_translation());
+
   return $blocks;
 }
 
@@ -1457,15 +1459,23 @@ function userpoints_block_view($delta) {
     // If 0 we pull 0 or NULL.
     $title = t('Highest Users');
 
-    $query = db_select('userpoints', 'p')
+    if ($delta=='all') {
+      $query = db_select('userpoints', 'p')
+                    ->fields('p', array('uid'))
+                    ->range(0, variable_get('userpoints_block_up_records_' . $delta, 5));
+      $query->addExpression('SUM(p.points)', 'points');
+      $query->groupBy('p.uid');
+      $query->orderBy('points', 'DESC');
+    } else {
+      $query = db_select('userpoints', 'p')
                     ->fields('p', array('uid', 'points'))
                     ->orderBy('p.points', 'DESC')
                     ->range(0, variable_get('userpoints_block_up_records_' . $delta, 5));
-    if ($delta == 0) {
-      $query->condition(db_or()->condition('p.tid', 0)->isNull('p.tid'));
-    }
-    else {
-      $query->condition('p.tid', $delta);
+      if ($delta == 0) {
+        $query->condition(db_or()->condition('p.tid', 0)->isNull('p.tid'));
+      } else {
+        $query->condition('p.tid', $delta);
+      }
     }
 
     // Exclude blocked users.
